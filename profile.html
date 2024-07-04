@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Profile</title>
+  <style>
+    /* Add your CSS styling here */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #e8eaf6;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav {
+      background: linear-gradient(to right, #6200ee, #9c27b0);
+      padding: 10px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    nav ul {
+      list-style-type: none;
+      display: flex;
+      justify-content: space-around;
+      padding: 0;
+    }
+
+    nav ul li {
+      margin: 0 10px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      padding: 5px 10px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      background-color: #ffffff1a;
+    }
+
+    section {
+      background-color: #ffffff;
+      color: #9c27b0;
+      padding: 50px;
+      text-align: center;
+      position: relative; /* Add this to make the profile section relative to the parent section */
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    /* New CSS for profile section */
+    .profile {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      display: flex;
+      align-items: center;
+      color: #444;
+    }
+
+    .profile img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+
+    /* New CSS for edit section */
+    .edit-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 30px;
+    }
+
+    .edit-section label {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .edit-section input {
+      padding: 8px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: 100%;
+    }
+
+    .edit-section button {
+      padding: 10px 20px;
+      background-color: #6200ee;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      font-size: 16px;
+      width: 100%;
+    }
+
+    .edit-section button:hover {
+      background-color: #1976D2;
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <ul>
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="profile.html">Profile</a></li>
+      <li><a href="settings.html">Settings</a></li>
+      <li><a href="#" id="logoutButton">Logout</a></li>
+    </ul>
+  </nav>
+
+  <section>
+    <!-- New profile section -->
+    <div class="profile">
+      <img id="profileImg" src="default_profile_pic.png" alt="Profile Picture">
+      <h3 id="username"></h3>
+    </div>
+
+    <h2>Your Profile</h2>
+
+    <!-- New edit section -->
+    <div class="edit-section">
+      <label for="profilePic">Profile Picture:</label>
+      <input type="file" id="profilePic" accept="image/*">
+
+      <label for="age">Age:</label>
+      <input type="number" id="age">
+
+      <label for="email">Email:</label>
+      <input type="email" id="email">
+
+      <button id="saveButton">Save Changes</button>
+    </div>
+  </section>
+
+  <script>
+    // JavaScript code to handle logout
+    document.getElementById("logoutButton").addEventListener("click", function() {
+      fetch("/logout", {
+        method: "GET"
+      })
+      .then(function(response) {
+        // Redirect to the login page after successful logout
+        window.location.href = "/login.html";
+      })
+      .catch(function(error) {
+        console.log("Logout failed:", error);
+      });
+    });
+
+    // JavaScript code to display the logged-in username and profile picture
+    fetch("/get-username", {
+      method: "GET"
+    })
+    .then(function(response) {
+      return response.text();
+    })
+    .then(function(username) {
+      document.getElementById("username").innerText = "Hi, welcome " + username + "!";
+      fetch("/profile")
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(userData) {
+        // Display the profile picture dynamically
+        if (userData.profilePic) {
+          document.getElementById("profileImg").src = userData.profilePic;
+        }
+        // Fill the age and email input fields with user data
+        document.getElementById("age").value = userData.age || "";
+        document.getElementById("email").value = userData.email || "";
+      })
+      .catch(function(error) {
+        console.log("Error fetching user profile:", error);
+      });
+    })
+    .catch(function(error) {
+      console.log("Error fetching username:", error);
+    });
+
+    // JavaScript code to handle profile updates
+  document.getElementById("saveButton").addEventListener("click", function() {
+    const profilePic = document.getElementById("profilePic").files[0];
+    const age = document.getElementById("age").value;
+    const email = document.getElementById("email").value;
+
+    // Create a new FormData object to send the data as multipart/form-data
+    const formData = new FormData();
+    formData.append("profilePic", profilePic);
+    formData.append("age", age);
+    formData.append("email", email);
+
+    // Send the form data to the server using fetch and POST method
+    fetch("/update-profile", {
+      method: "POST",
+      body: formData
+    })
+    .then(function(response) {
+      if (response.ok) {
+        console.log("Profile updated successfully!");
+        alert("Profile updated successfully!");
+        // If the profile update is successful, update the profile picture on the page
+        if (profilePic) {
+          const reader = new FileReader();
+          reader.onload = function(event) {
+            document.getElementById("profileImg").src = event.target.result;
+          };
+          reader.readAsDataURL(profilePic);
+        }
+        // Update the username on the dashboard page
+        fetch("/get-username")
+          .then(response => response.text())
+          .then(username => {
+            document.getElementById("username").innerText = "Hi, welcome " + username + "!";
+            // Update the profile picture on the dashboard page if it exists
+            fetch("/profile")
+              .then(response => response.json())
+              .then(userData => {
+                if (userData.profilePic) {
+                  document.getElementById("profileImg").src = userData.profilePic;
+                }
+              })
+              .catch(error => {
+                console.log("Error fetching user profile:", error);
+              });
+          })
+          .catch(error => {
+            console.log("Error fetching username:", error);
+          });
+      } else {
+        console.error("Failed to update profile");
+        alert("Failed to update profile");
+      }
+    })
+    .catch(function(error) {
+      console.error("Error updating profile:", error);
+      alert("Error updating profile");
+    });
+  });
+</script>
+</body>
+
+</html>

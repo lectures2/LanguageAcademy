@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+  <style>
+    /* Add your CSS styling here */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav {
+      background: linear-gradient(to right, #6200ee, #9c27b0);
+      padding: 10px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    nav ul {
+      list-style-type: none;
+      display: flex;
+      justify-content: space-around;
+      padding: 0;
+      margin: 0;
+    }
+
+    nav ul li {
+      margin: 0 10px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      padding: 5px 10px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    nav ul li a:hover {
+      background-color: #ffffff1a;
+    }
+
+    section {
+      background-color: #ffffff;
+      color: #444;
+      padding: 50px;
+      text-align: center;
+      position: relative;
+    }
+
+    h2 {
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+      color: #6200ee;
+    }
+
+    /* New CSS for profile section */
+    .profile {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      display: flex;
+      align-items: center;
+      color: #444;
+    }
+
+    .profile img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+
+    /* New CSS for Go to Google Form button */
+    #googleFormButton {
+      padding: 12px 24px;
+      background-color: #2196F3;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+      margin-top: 20px;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    #googleFormButton:hover {
+      background-color: #1976D2;
+    }
+
+    /* Additional Styles for a cool-looking dashboard */
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .welcome-message {
+      font-size: 32px;
+      margin-bottom: 40px;
+    }
+
+    .dashboard-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .dashboard-item {
+      width: 100%;
+      max-width: 500px;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      background-color: #fff;
+      margin-bottom: 30px;
+    }
+
+    .dashboard-item img {
+      max-width: 150px;
+      border-radius: 50%;
+      margin-bottom: 15px;
+    }
+
+    .dashboard-item h3 {
+      font-size: 24px;
+      margin-bottom: 10px;
+      color: #6200ee;
+    }
+
+    .dashboard-item p {
+      color: #666;
+      margin-bottom: 15px;
+    }
+
+    .dashboard-item a {
+      display: inline-block;
+      padding: 8px 20px;
+      background-color: #6200ee;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+
+    .dashboard-item a:hover {
+      background-color: #1976D2;
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <ul>
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="profile.html">Profile</a></li>
+      <li><a href="settings.html">Settings</a></li>
+      <li><a href="#" id="logoutButton">Logout</a></li>
+    </ul>
+  </nav>
+
+  <section>
+    <!-- New profile section -->
+    <div class="profile">
+      <img id="profileImg" src="default_profile_pic.png" alt="Profile Picture">
+      <h3 id="username"></h3>
+    </div>
+
+    <div class="container">
+      <h2 class="welcome-message">Welcome to Your Dashboard</h2>
+
+      <div class="dashboard-content">
+        <!-- Item 1: Course Registration -->
+        <div class="dashboard-item">
+          <img src="regi.png" alt="Dashboard Item 1">
+          <h3>Course Registration</h3>
+          <p>
+            Register for courses and view details about lectures and instructors.
+            Use the Google Form to select courses and provide necessary information.
+          </p>
+          <a href="https://docs.google.com/forms/your-google-form-url" target="_blank" id="googleFormButton">Go to Google Form</a>
+        </div>
+
+        <!-- Item 2: Account Settings -->
+        <div class="dashboard-item">
+          <img src="account.png" alt="Dashboard Item 2">
+          <h3>Account Settings</h3>
+          <p>
+            In the <b>"Profile"</b> section, you can change your profile picture.
+            In the <b>"Settings"</b> section, you can change your password and update other account settings.
+          </p>
+        </div>
+        
+        <!-- Item 3: Arabic Lecture -->
+        <div class="dashboard-item">
+          <img src="saif.jpeg" alt="Arabic Lecture">
+          <h3>Arabic Lecture</h3>
+          <p>
+            Description of the Arabic lecture and information about the lecturer.
+          </p>
+          <a href="https://lectures2.github.io/ArabicLecture/" target="_blank">Visit Website</a>
+        </div>
+
+        <!-- Item 4: English Lecture -->
+        <div class="dashboard-item">
+          <img src="shakira.jfif" alt="English Lecture">
+          <h3>English Lecture</h3>
+          <p>
+            Description of the English lecture and information about the lecturer.
+          </p>
+          <a href="https://lectures2.github.io/EnglishLecture/" target="_blank">Visit Website</a>
+        </div>
+
+        <!-- Add more dashboard items as needed -->
+
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // JavaScript code to handle logout
+    document.getElementById("logoutButton").addEventListener("click", function() {
+      fetch("/logout", {
+        method: "GET"
+      })
+        .then(function(response) {
+          // Redirect to the login page after successful logout
+          window.location.href = "/login.html";
+        })
+        .catch(function(error) {
+          console.log("Logout failed:", error);
+        });
+    });
+
+    // JavaScript code to display the logged-in username and profile picture
+    fetch("/get-username")
+      .then(response => response.text())
+      .then(username => {
+        document.getElementById("username").innerText = "Hi, welcome " + username + "!";
+        fetch("/profile")
+          .then(response => response.json())
+          .then(userData => {
+            if (userData.profilePic) {
+              document.getElementById("profileImg").src = userData.profilePic;
+            }
+          })
+          .catch(error => {
+            console.log("Error fetching user profile:", error);
+          });
+      })
+      .catch(error => {
+        console.log("Error fetching username:", error);
+      });
+  </script>
+</body>
+
+</html>
